@@ -34,7 +34,7 @@ A full-stack clinic website built with **Spring Boot**. It is a rebuild of an ea
 
 | Booking                                        | Tracking |
 |------------------------------------------------|---|
-| ![Booking](docs/screenshots/admin-sliders.png) | ![Tracking](docs/screenshots/track.png) |
+| ![Booking](docs/screenshots/booking.png) | ![Tracking](docs/screenshots/track.png) |
 
 | Admin login | Admin appointments |
 |---|---|
