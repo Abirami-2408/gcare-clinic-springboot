@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Review Form</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="~{admin/fragments :: adminNav}"></div>
+
+<div class="admin-main">
+    <h2>Review</h2>
+
+    <form th:action="@{/admin/reviews/save}" th:object="${review}" method="post" class="admin-form">
+        <input type="hidden" th:field="*{id}">
+
+        <p>Name:<br><input type="text" th:field="*{name}">
+            <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></p>
+
+        <p>Comment:<br><textarea th:field="*{comment}" rows="4"></textarea>
+            <span class="error" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></span></p>
+
+        <p>Rating (1-5):<br><input type="number" th:field="*{rating}" min="1" max="5">
+            <span class="error" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></span></p>
+
+        <p><label><input type="checkbox" th:field="*{status}"> Active</label></p>
+
+        <button type="submit">Save</button>
+        <a th:href="@{/admin/reviews}">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

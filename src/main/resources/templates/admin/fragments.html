@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- th:fragment gives this block a name, so other pages can include it -->
+<nav class="admin-nav" th:fragment="adminNav">
+    <span class="admin-brand">GCare Admin</span>
+
+    <a th:href="@{/admin/appointments}">Appointments</a>
+    <a th:href="@{/admin/sliders}">Sliders</a>
+    <a th:href="@{/admin/services}">Services</a>
+    <a th:href="@{/admin/reviews}">Reviews</a>
+    <a th:href="@{/}" target="_blank">View Site</a>
+
+    <!-- POST form: th:action adds the hidden CSRF token that logout needs -->
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Build output
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# VS Code / Eclipse
+.vscode/
+.classpath
+.project
+.settings/
+
+# Uploaded images (user content, not source code)
+uploads/
+
+# Local secrets and logs
+.env
+application-local.properties
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

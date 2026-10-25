@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<!-- th:replace swaps this line for the menu block named adminNav in admin/fragments.html -->
+<div th:replace="~{admin/fragments :: adminNav}"></div>
+
+<div class="admin-main">
+    <h2>Manage Appointments</h2>
+
+    <div class="table-wrap">
+        <table class="admin-table">
+            <tr>
+                <th>Ref</th><th>Date</th><th>Time</th><th>Patient</th><th>Phone</th>
+                <th>Email</th><th>Message</th><th>Status</th><th>Actions</th>
+            </tr>
+            <tr th:each="a : ${appointments}">
+                <td th:text="'GC-' + ${a.id}"></td>
+                <td th:text="${#temporals.format(a.appointmentDate, 'dd-MM-yyyy')}"></td>
+                <td th:text="${a.appointmentTime}"></td>
+                <td th:text="${a.patientName}"></td>
+                <td th:text="${a.phone}"></td>
+                <td th:text="${a.email}"></td>
+                <td th:text="${a.message}"></td>
+                <td th:text="${a.status}"></td>
+                <td>
+                    <form th:action="@{/admin/appointments/status/{id}(id=${a.id})}" method="post"
+                          style="display:inline">
+                        <select name="status">
+                            <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}"
+                                    th:selected="${st == a.status}"></option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                    <form th:action="@{/admin/appointments/delete/{id}(id=${a.id})}" method="post"
+                          style="display:inline"
+                          onsubmit="return confirm('Delete this appointment?')">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <p th:if="${#lists.isEmpty(appointments)}">No appointments yet.</p>
+</div>
+
+</body>
+</html>

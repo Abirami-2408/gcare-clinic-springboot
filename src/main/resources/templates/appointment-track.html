@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Track Appointment - GCare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <a th:href="@{/}" class="logo">G<span>Care</span></a>
+        <nav class="nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/appointment}">Book Appointment</a>
+        </nav>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Track Your Appointment</h2>
+        <p class="section-sub">Enter your reference number and the phone number you used while booking.</p>
+
+        <!-- search form: sends ref and phone to POST /appointment/track -->
+        <form th:action="@{/appointment/track}" method="post" class="form-card">
+            <label for="ref">Reference Number</label>
+            <input type="text" id="ref" name="ref" th:value="${ref}" placeholder="Example: GC-1" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" maxlength="10" placeholder="10-digit mobile number" required>
+
+            <button type="submit" class="btn">Check Status</button>
+        </form>
+
+        <!-- shown only when the controller sent notFound = true -->
+        <div class="form-card status-card" th:if="${notFound}">
+            <div class="icon">❌</div>
+            <h3>No appointment found</h3>
+            <p>Please check the reference number and phone number, then try again.</p>
+        </div>
+
+        <!-- shown only when a booking was found; th:switch picks ONE block below by status -->
+        <div class="form-card status-card" th:if="${appointment != null}" th:switch="${appointment.status}">
+
+            <div th:case="'PENDING'" class="status pending">
+                <div class="icon">⏳</div>
+                <h2>Appointment Requested</h2>
+                <p>Your request has been received. Our team will confirm it soon.</p>
+            </div>
+
+            <div th:case="'CONFIRMED'" class="status confirmed">
+                <div class="icon">✅</div>
+                <h2>Appointment Confirmed Successfully</h2>
+                <p>Your appointment is confirmed. Please arrive 10 minutes early.</p>
+            </div>
+
+            <div th:case="'COMPLETED'" class="status completed">
+                <div class="icon">🩺</div>
+                <h2>Visit Completed</h2>
+                <p>Thank you for visiting GCare. We wish you good health.</p>
+            </div>
+
+            <div th:case="'CANCELLED'" class="status cancelled">
+                <div class="icon">⚠️</div>
+                <h2>Appointment Cancelled</h2>
+                <p>This appointment was cancelled. You can book a new time.</p>
+                <a th:href="@{/appointment}" class="btn btn-small">Book Again</a>
+            </div>
+
+            <!-- th:case="*" means "anything else" -->
+            <div th:case="*"><h2 th:text="${appointment.status}">Status</h2></div>
+
+            <hr>
+            <p><strong>Reference:</strong> <span th:text="'GC-' + ${appointment.id}"></span></p>
+            <p><strong>Patient:</strong> <span th:text="${appointment.patientName}"></span></p>
+            <p><strong>Date:</strong>
+                <span th:text="${#temporals.format(appointment.appointmentDate, 'dd MMM yyyy')}"></span></p>
+            <p><strong>Time:</strong> <span th:text="${appointment.appointmentTime}"></span></p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2026 GCare Homeopathy Clinic. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

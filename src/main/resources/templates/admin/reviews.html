@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Reviews</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="~{admin/fragments :: adminNav}"></div>
+
+<div class="admin-main">
+    <h2>Manage Reviews</h2>
+    <a th:href="@{/admin/reviews/new}" class="btn-link">+ Add Review</a>
+
+    <div class="table-wrap">
+        <table class="admin-table">
+            <tr>
+                <th>ID</th><th>Name</th><th>Comment</th><th>Rating</th><th>Status</th><th>Actions</th>
+            </tr>
+            <tr th:each="r : ${reviews}">
+                <td th:text="${r.id}"></td>
+                <td th:text="${r.name}"></td>
+                <td th:text="${r.comment}"></td>
+                <td th:text="${r.rating}"></td>
+                <td><span class="badge" th:classappend="${r.status} ? 'on' : 'off'"
+                          th:text="${r.status} ? 'Active' : 'Inactive'"></span></td>
+
+                <td class="actions">
+                    <!-- Edit only opens a form, so a link is fine -->
+                    <a th:href="@{/admin/reviews/edit/{id}(id=${r.id})}">Edit</a>
+
+                    <!-- Toggle changes data, so it is a POST form (th:action adds the CSRF token) -->
+                    <form th:action="@{/admin/reviews/toggle/{id}(id=${r.id})}" method="post" class="inline-form">
+                        <button type="submit" class="link-btn">Toggle</button>
+                    </form>
+
+                    <!-- Delete is also a POST form, and asks for confirmation first -->
+                    <form th:action="@{/admin/reviews/delete/{id}(id=${r.id})}" method="post" class="inline-form"
+                          onsubmit="return confirm('Delete this review?')">
+                        <button type="submit" class="link-btn danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
+</div>
+</body>
+</html>

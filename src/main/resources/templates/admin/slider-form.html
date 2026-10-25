@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Slider Form</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="~{admin/fragments :: adminNav}"></div>
+
+<div class="admin-main">
+    <h2>Slider</h2>
+
+    <form th:action="@{/admin/sliders/save}" th:object="${slider}" method="post"
+          enctype="multipart/form-data" class="admin-form">
+
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{image}">
+
+        <p>Title:<br><input type="text" th:field="*{title}">
+            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></p>
+
+        <p>Description:<br><textarea th:field="*{description}" rows="3"></textarea></p>
+
+        <p th:if="${slider.image != null}">Current image:<br>
+            <img th:src="@{'/uploads/' + ${slider.image}}" width="160" alt="current"></p>
+
+        <p>Image: <input type="file" name="imageFile" accept="image/*">
+            <span class="error" th:if="${uploadError}" th:text="${uploadError}"></span></p>
+
+        <p><label><input type="checkbox" th:field="*{status}"> Active</label></p>
+
+        <button type="submit">Save</button>
+        <a th:href="@{/admin/sliders}">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

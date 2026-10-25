@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login - GCare</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="login-body">
+
+<div class="login-card">
+    <div class="login-logo">G<span>Care</span></div>
+    <h2>Admin Login</h2>
+    <p class="login-sub">Sign in to manage the clinic website.</p>
+
+    <!-- shown only when the URL ends with ?error (wrong username or password) -->
+    <div class="login-alert error-box" th:if="${param.error}">
+        Invalid username or password.
+    </div>
+
+    <!-- shown only when the URL ends with ?logout -->
+    <div class="login-alert ok-box" th:if="${param.logout}">
+        You have been logged out.
+    </div>
+
+    <!-- th:action adds the hidden CSRF token; the field names must be "username" and "password" -->
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required autofocus>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+        <label class="show-pass">
+            <input type="checkbox" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'">
+            Show password
+        </label>
+
+        <button type="submit" class="login-btn">Sign In</button>
+    </form>
+
+    <a th:href="@{/}" class="login-back">&larr; Back to website</a>
+</div>
+
+</body>
+</html>

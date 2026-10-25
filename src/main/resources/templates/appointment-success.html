@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Appointment Requested - GCare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="form-card success-card">
+            <div class="icon">✅</div>
+            <h2>Appointment Requested</h2>
+            <p th:if="${ref != null}">Your reference number is <strong th:text="'GC-' + ${ref}">GC-1</strong>.</p>
+            <p>Please note this number. Our team will confirm your visit, and you can check the
+                status at any time using your reference number and phone number.</p>
+
+            <a th:if="${ref != null}" th:href="@{/appointment/track(ref=${'GC-' + ref})}" class="btn">Track My Appointment</a>
+            <a th:href="@{/}" class="btn btn-small">Back to Home</a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

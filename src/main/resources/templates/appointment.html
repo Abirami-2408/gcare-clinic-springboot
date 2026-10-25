@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Appointment - GCare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- simple header with links back to the home page sections -->
+<header class="header">
+    <div class="container header-inner">
+        <a th:href="@{/}" class="logo">G<span>Care</span></a>
+        <nav class="nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/#services}">Services</a>
+            <a th:href="@{/#reviews}">Reviews</a>
+            <a th:href="@{/#contact}">Contact</a>
+            <a th:href="@{/appointment/track}">Track Appointment</a>
+        </nav>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Book an Appointment</h2>
+        <p class="section-sub">Fill in the form and we will confirm your visit by phone. Closed on Sundays.</p>
+
+        <!-- th:object connects the form to the Appointment object from the controller -->
+        <form th:action="@{/appointment}" th:object="${appointment}" method="post" class="form-card">
+
+            <label for="patientName">Your Name *</label>
+            <input type="text" id="patientName" th:field="*{patientName}" maxlength="100">
+            <span class="error" th:if="${#fields.hasErrors('patientName')}" th:errors="*{patientName}"></span>
+
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" th:field="*{phone}" maxlength="10" placeholder="10-digit mobile number">
+            <span class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+
+            <label for="email">Email (optional)</label>
+            <input type="email" id="email" th:field="*{email}" maxlength="100">
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+            <div class="form-row">
+                <div>
+                    <label for="appointmentDate">Preferred Date *</label>
+                    <!-- th:min stops the browser from offering past dates -->
+                    <input type="date" id="appointmentDate" th:field="*{appointmentDate}" th:min="${today}">
+                    <span class="error" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></span>
+                </div>
+                <div>
+                    <label for="appointmentTime">Preferred Time *</label>
+                    <select id="appointmentTime" th:field="*{appointmentTime}">
+                        <option value="">-- Select a time --</option>
+                        <option th:each="slot : ${slots}" th:value="${slot}" th:text="${slot}"></option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('appointmentTime')}" th:errors="*{appointmentTime}"></span>
+                </div>
+            </div>
+
+            <label for="message">Message / Health concern (optional)</label>
+            <textarea id="message" th:field="*{message}" rows="4" maxlength="500"></textarea>
+            <span class="error" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></span>
+
+            <button type="submit" class="btn">Book Appointment</button>
+        </form>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2026 GCare Homeopathy Clinic. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!-- lang helps browsers and search engines; xmlns:th turns on Thymeleaf attributes -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">                                           <!-- supports all characters, including stars -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- makes the page fit phone screens -->
+    <title>GCare Homeopathy Clinic</title>                           <!-- text on the browser tab -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">              <!-- loads the design file -->
+</head>
+<body>
+
+<!-- ========== 1. TOP BAR: contact details (replace with your real ones) ========== -->
+<div class="topbar">
+    <div class="container topbar-inner">
+        <span>📞+91 8667023723</span>
+        <span>✉ abiramirk2408@gmail.com</span>
+        <span>🕒 Mon - Sat: 9:00 AM - 7:00 PM</span>
+    </div>
+</div>
+
+<!-- ========== 2. HEADER: logo and menu ========== -->
+<header class="header">
+    <div class="container header-inner">
+        <a href="#home" class="logo">G<span>Care</span></a>   <!-- #home jumps to the section with id="home" -->
+        <nav class="nav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#reviews">Reviews</a>
+            <a th:href="@{/appointment/track}">Track Appointment</a>
+            <a th:href="@{/appointment}" class="btn">Book Appointment</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ========== 3. HERO: slider from the database ========== -->
+<section id="home" class="hero">
+
+    <!-- shown only when at least one active slider exists -->
+    <div class="slider" th:if="${!#lists.isEmpty(sliders)}">
+
+        <!-- th:each repeats this block once per slider; "stat" tells us which round we are in -->
+        <div class="slide" th:each="s, stat : ${sliders}"
+             th:classappend="${stat.first} ? 'active'">      <!-- only the first slide starts visible -->
+
+            <!-- show the picture only if an image was uploaded; /uploads/ is set up in WebConfig -->
+            <img th:if="${s.image != null}"
+                 th:src="@{'/uploads/' + ${s.image}}"
+                 th:alt="${s.title}">
+
+            <div class="slide-text">
+                <h1 th:text="${s.title}">Slider title</h1>             <!-- text replaced by the real title -->
+                <p th:text="${s.description}">Slider description</p>
+                <a href="#contact" class="btn">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- fallback banner, shown only when there are NO active sliders -->
+    <div class="hero-default" th:if="${#lists.isEmpty(sliders)}">
+        <h1>Gentle, Natural Healthcare for Your Family</h1>
+        <p>Personalised homeopathic treatment with care and attention.</p>
+        <a href="#contact" class="btn">Book Appointment</a>
+    </div>
+</section>
+
+<!-- ========== 4. ABOUT ========== -->
+<section id="about" class="section">
+    <div class="container">
+        <h2 class="section-title">About GCare</h2>
+        <p class="section-sub">
+            GCare is a homeopathy clinic focused on safe, gentle and personalised treatment.
+            Replace this paragraph with your clinic's real story.
+        </p>
+
+        <div class="about-grid">
+            <div class="info-box">
+                <div class="icon">🌿</div>
+                <h3>Natural Medicines</h3>
+                <p>Treatment based on homeopathic principles.</p>
+            </div>
+            <div class="info-box">
+                <div class="icon">👨‍⚕️</div>
+                <h3>Personal Attention</h3>
+                <p>Every patient receives an individual treatment plan.</p>
+            </div>
+            <div class="info-box">
+                <div class="icon">📅</div>
+                <h3>Easy Appointments</h3>
+                <p>Book a visit by phone at a time that suits you.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== 5. SERVICES: cards from the database ========== -->
+<section id="services" class="section alt">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-sub">Care for every member of your family.</p>
+
+        <div class="cards">
+            <!-- one card is created for every active service; "sv" is the current service -->
+            <div class="card" th:each="sv : ${services}">
+                <img th:if="${sv.image != null}"
+                     th:src="@{'/uploads/' + ${sv.image}}"
+                     th:alt="${sv.title}">
+                <div class="card-body">
+                    <h3 th:text="${sv.title}">Service name</h3>
+                    <p th:text="${sv.description}">Service description</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- friendly message when the list is empty -->
+        <p class="empty-note" th:if="${#lists.isEmpty(services)}">Our services will be listed soon.</p>
+    </div>
+</section>
+
+<!-- ========== 6. REVIEWS: from the database ========== -->
+<section id="reviews" class="section">
+    <div class="container">
+        <h2 class="section-title">What Our Patients Say</h2>
+        <p class="section-sub">Real feedback from the people we care for.</p>
+
+        <div class="cards">
+            <div class="review" th:each="r : ${reviews}">
+
+                <!-- 5 stars are drawn; the first "rating" stars get the class "on" (gold) -->
+                <div class="stars">
+                    <span th:each="i : ${#numbers.sequence(1, 5)}"
+                          th:classappend="${i le r.rating} ? 'on'">★</span>   <!-- "le" means less than or equal -->
+                </div>
+
+                <p th:text="${r.comment}">Review text</p>
+                <h4 th:text="${r.name}">Patient name</h4>
+            </div>
+        </div>
+
+        <p class="empty-note" th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
+    </div>
+</section>
+
+<!-- ========== 7. CONTACT ========== -->
+<section id="contact" class="section alt">
+    <div class="container">
+        <h2 class="section-title">Visit or Call Us</h2>
+        <p class="section-sub">We would be happy to help. Replace these details with your own.</p>
+
+        <div class="contact-grid">
+            <div class="info-box">
+                <div class="icon">📍</div>
+                <h3>Address:</h3>
+                <p>AK Street,<br>Tirunelveli,627004.</p>
+            </div>
+            <div class="info-box">
+                <div class="icon">📞</div>
+                <h3>Phone:</h3>
+                <p>+91 8667023723</p>
+                <a href="tel:+918667023723" class="btn btn-small">Call Now</a>   <!-- opens the phone dialer on mobiles -->
+            </div>
+            <div class="info-box">
+                <div class="icon">🕒</div>
+                <h3>Opening Hours:</h3>
+                <p>Mon - Sat: 9:00 AM - 7:00 PM<br>Sunday: Closed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <p>&copy; 2026 GCare Homeopathy Clinic. All rights reserved.</p>
+</footer>
+
+<!-- ========== SLIDER SCRIPT: changes the slide every 5 seconds ========== -->
+<script>
+    const slides = document.querySelectorAll(".slide");      // collect all slides into a list
+    if (slides.length > 1) {                                 // only rotate when there are 2 or more
+        let current = 0;                                     // index of the visible slide
+        setInterval(function () {                            // repeat the code below every 5000 ms
+            slides[current].classList.remove("active");      // hide the current slide
+            current = (current + 1) % slides.length;         // next index, back to 0 after the last
+            slides[current].classList.add("active");         // show the next slide
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>

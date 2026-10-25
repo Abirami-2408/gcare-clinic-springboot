@@ -1,0 +1,126 @@
+/* ===== 1. Basic settings for the whole page ===== */
+:root {                                   /* colours stored once, reused everywhere */
+    --primary: #0f8f7e;                   /* main teal-green */
+    --primary-dark: #0a6b5e;              /* darker shade for hover and footer */
+    --accent: #f5a623;                    /* gold, used for stars */
+    --text: #243238;                      /* normal text colour */
+    --light: #f3f9f8;                     /* pale background for alternate sections */
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }  /* removes default gaps; width includes padding */
+body { font-family: "Segoe UI", Arial, sans-serif; color: var(--text); line-height: 1.6; }
+a { text-decoration: none; color: inherit; }          /* links look like normal text */
+img { max-width: 100%; display: block; }              /* images never overflow their box */
+.container { width: 90%; max-width: 1150px; margin: 0 auto; }  /* centred content area */
+
+/* ===== 2. Top bar ===== */
+.topbar { background: var(--primary-dark); color: #fff; font-size: 14px; padding: 8px 0; }
+.topbar-inner { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+
+/* ===== 3. Header and menu ===== */
+.header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    position: sticky; top: 0; z-index: 10; }    /* stays at the top while scrolling */
+.header-inner { display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; flex-wrap: wrap; gap: 10px; }
+.logo { font-size: 28px; font-weight: 700; color: var(--primary); }
+.logo span { color: var(--text); }
+.nav { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.nav a:hover { color: var(--primary); }
+
+/* ===== 4. Buttons ===== */
+.btn { display: inline-block; background: var(--primary); color: #fff;
+    padding: 12px 26px; border-radius: 30px; font-weight: 600; }
+.btn:hover { background: var(--primary-dark); }
+.btn-small { padding: 8px 18px; }
+.nav a.btn:hover { color: #fff; }         /* keeps the button text white on hover */
+
+/* ===== 5. Hero slider ===== */
+.slider { position: relative; height: 480px; overflow: hidden; background: var(--primary-dark); }
+.slide { position: absolute; inset: 0;                /* every slide covers the whole slider */
+    opacity: 0; transition: opacity 1s;          /* hidden, fades in smoothly */
+    pointer-events: none;                        /* hidden slides cannot be clicked */
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+.slide.active { opacity: 1; pointer-events: auto; }   /* the current slide is visible */
+.slide img { width: 100%; height: 100%; object-fit: cover; }  /* picture fills the slide without stretching */
+.slide::before { content: ""; position: absolute; inset: 0; z-index: 1;   /* dark layer so text is readable */
+    background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.1)); }
+.slide-text { position: absolute; z-index: 2; left: 8%; top: 50%;
+    transform: translateY(-50%); max-width: 520px; color: #fff; }
+.slide-text h1 { font-size: 42px; line-height: 1.2; margin-bottom: 12px; }
+.slide-text p { font-size: 18px; margin-bottom: 22px; }
+
+/* banner shown when no sliders exist */
+.hero-default { background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; text-align: center; padding: 100px 20px; }
+.hero-default h1 { font-size: 40px; margin-bottom: 12px; }
+.hero-default p { font-size: 18px; margin-bottom: 22px; }
+
+/* ===== 6. Sections ===== */
+.section { padding: 70px 0; }                         /* space above and below each section */
+.section.alt { background: var(--light); }            /* alternate pale background */
+.section-title { text-align: center; font-size: 32px; color: var(--primary-dark); margin-bottom: 10px; }
+.section-sub { text-align: center; max-width: 620px; margin: 0 auto 40px; color: #5b6b72; }
+.empty-note { text-align: center; color: #6b7b82; margin-top: 20px; }
+
+/* ===== 7. About and contact boxes ===== */
+.about-grid, .contact-grid {
+    display: grid;                                    /* grid puts boxes in rows and columns */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));  /* as many columns as fit; wraps on phones */
+    gap: 24px; }
+.info-box { background: #fff; border-radius: 12px; padding: 26px; text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,.07); }
+.info-box h3 { color: var(--primary); margin-bottom: 8px; }
+.info-box .btn { margin-top: 12px; }
+.icon { font-size: 34px; margin-bottom: 8px; }
+
+/* ===== 8. Service cards and review cards ===== */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 26px; }
+.card { background: #fff; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,.08); transition: transform .2s; }
+.card:hover { transform: translateY(-6px); }          /* card lifts slightly on hover */
+.card img { width: 100%; height: 180px; object-fit: cover; }
+.card-body { padding: 20px; }
+.card-body h3 { color: var(--primary-dark); margin-bottom: 8px; }
+
+.review { background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.08); border-top: 4px solid var(--primary); }
+.review p { margin: 10px 0; font-style: italic; }
+.review h4 { color: var(--primary-dark); }
+.stars span { color: #d5d5d5; font-size: 20px; }      /* grey star */
+.stars span.on { color: var(--accent); }              /* gold star for the rating */
+
+/* ===== 9. Footer ===== */
+.footer { background: var(--primary-dark); color: #d9efeb; text-align: center;
+    padding: 24px 0; font-size: 14px; }
+
+/* ===== 10. Phones and small screens ===== */
+@media (max-width: 700px) {                           /* rules below apply only on narrow screens */
+    .slider { height: 380px; }
+    .slide-text h1 { font-size: 28px; }
+    .slide-text p { font-size: 15px; }
+    .header-inner { justify-content: center; }
+}
+/* ===== Appointment form ===== */
+.form-card { max-width: 640px; margin: 0 auto; background: #fff; padding: 32px;
+    border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.form-card label { display: block; margin: 16px 0 6px; font-weight: 600; }
+.form-card input, .form-card select, .form-card textarea {
+    width: 100%; padding: 11px 12px; border: 1px solid #c9d6d4;
+    border-radius: 8px; font-size: 15px; font-family: inherit; }
+.form-card input:focus, .form-card select:focus, .form-card textarea:focus {
+    outline: none; border-color: var(--primary); }
+.form-card .btn { margin-top: 22px; border: none; cursor: pointer; font-size: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.error { color: #c0392b; font-size: 13px; display: block; margin-top: 4px; }
+.success-card { text-align: center; }
+.success-card p { margin: 10px 0; }
+
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+/* ===== Appointment status page ===== */
+.status-card { text-align: center; margin-top: 24px; }
+.status-card p { margin: 6px 0; }
+.status-card hr { margin: 18px 0; border: none; border-top: 1px solid #e1ebe9; }
+.status h2 { margin: 6px 0; }
+.status.pending h2   { color: #d98200; }
+.status.confirmed h2 { color: #1e8e3e; }
+.status.completed h2 { color: var(--primary-dark); }
+.status.cancelled h2 { color: #c0392b; }

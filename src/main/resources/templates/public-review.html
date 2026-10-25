@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Reviews</title>
+</head>
+<body>
+<h2>Patient Reviews</h2>
+<div th:each="r : ${reviews}">
+    <h4 th:text="${r.name}">Name</h4>
+    <p th:text="${r.comment}">Comment</p>
+    <span th:text="${r.rating}">5</span> / 5
+</div>
+<p th:if="${#lists.isEmpty(reviews)}">No reviews yet.</p>
+</body>
+</html>

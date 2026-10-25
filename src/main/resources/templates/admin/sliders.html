@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Sliders</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div th:replace="~{admin/fragments :: adminNav}"></div>
+
+<div class="admin-main">
+    <h2>Manage Sliders</h2>
+    <a th:href="@{/admin/sliders/new}" class="btn-link">+ Add Slider</a>
+
+    <div class="table-wrap">
+        <table class="admin-table">
+            <tr>
+                <th>ID</th><th>Image</th><th>Title</th><th>Description</th><th>Status</th><th>Actions</th>
+            </tr>
+            <tr th:each="s : ${sliders}">
+                <td th:text="${s.id}"></td>
+                <td><img th:if="${s.image != null}" th:src="@{'/uploads/' + ${s.image}}" width="120" alt="slider"></td>
+                <td th:text="${s.title}"></td>
+                <td th:text="${s.description}"></td>
+                <td><span class="badge" th:classappend="${s.status} ? 'on' : 'off'"
+                          th:text="${s.status} ? 'Active' : 'Inactive'"></span></td>
+
+                <td class="actions">
+                    <a th:href="@{/admin/sliders/edit/{id}(id=${s.id})}">Edit</a>
+
+                    <form th:action="@{/admin/sliders/toggle/{id}(id=${s.id})}" method="post" class="inline-form">
+                        <button type="submit" class="link-btn">Toggle</button>
+                    </form>
+
+                    <form th:action="@{/admin/sliders/delete/{id}(id=${s.id})}" method="post" class="inline-form"
+                          onsubmit="return confirm('Delete this slider?')">
+                        <button type="submit" class="link-btn danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p th:if="${#lists.isEmpty(sliders)}">No sliders yet.</p>
+</div>
+</body>
+</html>
