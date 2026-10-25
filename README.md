@@ -71,8 +71,8 @@ src/main/java/com/gcare
 
 1. **Clone the project**
    ```
-   git clone https://github.com/Abirami-2408/GcareHomoepathy.git
-   cd REPOSITORY_NAME
+      git clone https://github.com/Abirami-2408/gcare-clinic-springboot.git
+   cd gcare-clinic-springboot
    ```
 
 2. **Create the database** by running `database/schema.sql` in MySQL Workbench or:
